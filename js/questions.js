@@ -23,7 +23,7 @@ const questions = [
 		answer: 1
 	},
 		{
-		question: "What is the latest version of JavaScript (as of Dec, 2016",
+		question: "What is the latest version of JavaScript (as of Dec, 2016)?",
 		choices: ["JavaScript 7th Edition",
 							"ECMAScript 2016",
 							"ES7",

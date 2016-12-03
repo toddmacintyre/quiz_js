@@ -1,5 +1,7 @@
 //Push results from each question to right and wrong arrays
+//Change 'next question' to 'Finish Quiz' on last question
 //Add results page
+//Add restart quiz button???
 
 
 //Assign variables to the DOM
@@ -69,9 +71,9 @@ var verifyAnswer = function() {
 	console.log("clicked: " + this.innerHTML);
 	//If click is correct answer, turn box green and tally score
 	if ( this.innerHTML === answer ) {
-		this.classList.add("btn-outline-success");
+		this.classList.add("btn-success");
 	} else {
-		this.classList.add("btn-outline-danger");
+		this.classList.add("btn-danger");
 	}
 	this.classList.remove("btn-outline-primary");
 	var button = this;
