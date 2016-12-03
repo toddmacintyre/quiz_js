@@ -17,7 +17,17 @@ const questions = [
 	{
 		question: "What does 'TDD' mean in programming?",
 		choices: ["Try doin' dat",
-							"Test Driven Development"],
+							"Test Driven Development",
+							"Testing Dumb Data",
+							"Todd's Disco Day"],
 		answer: 1
-	}	
+	},
+		{
+		question: "What is the latest version of JavaScript (as of Dec, 2016",
+		choices: ["JavaScript 7th Edition",
+							"ECMAScript 2016",
+							"ES7",
+							"All of the above"],
+		answer: 3
+	}
 ]
