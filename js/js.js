@@ -1,10 +1,6 @@
-//Push results from each question to right and wrong arrays
-//Change 'next question' to 'Finish Quiz' on last question
-//Add results page
-//Add restart quiz button???
 
 //Add total right and wrong array length to button. also add divider at bottom and tally at bottom of drop-down.
-//Add jumbotron background.
+
 
 
 //Assign variables to the DOM
@@ -27,31 +23,70 @@ var printResults = function() {
 	//Clear screen
 	var quizModule = document.getElementById('quizModule');
 	quizModule.removeChild(quizModule.children[0]);
+	document.getElementsByTagName('body')[0].removeChild( document.getElementsByTagName('footer')[0] ); //Clear Sticky Footer
 
-	//Button is of form // <a class="dropdown-item" href="#">Action</a>
 	//Display static information
 	quizModule.getElementsByTagName('div')[0].removeAttribute('style');
 
-	//Display correct results tally
-	for (let i = 0; i < correct.length; i++) {
-		var correctItem = document.createElement('a');
-		correctItem.className = "dropdown-item";
-		correctItem.innerHTML = "#" + correct[i].qNum + ": " + correct[i].selection;
-		document.getElementById('correct').getElementsByTagName('div')[0].appendChild(correctItem);
+	// //Display correct results tally
+	// document.getElementById('correctSpan').innerHTML = correct.length;
+	// for (let i = 0; i < correct.length; i++) {
+	// 	var correctItem = document.createElement('a');
+	// 	var menuDivider = document.createElement('div');
+	// 	correctItem.className = "dropdown-item";
+	// 	correctItem.innerHTML = "#" + correct[i].qNum + ": " + questions[correct[i].qNum - 1].question + "<br>Your Answer: " + correct[i].selection;
+	// 	document.getElementById('correct').getElementsByTagName('div')[0].appendChild(correctItem);
+	// 	if (i !== correct.length - 1) {
+	// 		menuDivider.className = "dropdown-divider";
+	// 		document.getElementById('correct').getElementsByTagName('div')[0].appendChild(menuDivider);
+	// 	}
+	// }
+
+	// //Display incorrect results tally
+	// document.getElementById('incorrectSpan').innerHTML = incorrect.length;
+	// for (let i = 0; i < incorrect.length; i++) {
+	// 	var incorrectItem = document.createElement('a');
+	// 	var menuDivider = document.createElement('div');
+	// 	incorrectItem.className = "dropdown-item";
+	// 	incorrectItem.innerHTML = "#" + incorrect[i].qNum + ": " + questions[incorrect[i].qNum - 1].question + "<br>Your Answer: " + incorrect[i].selection;
+	// 	document.getElementById('incorrect').getElementsByTagName('div')[0].appendChild(incorrectItem);
+	// 	if (i !== incorrect.length - 1) {
+	// 		menuDivider.className = "dropdown-divider";
+	// 		document.getElementById('incorrect').getElementsByTagName('div')[0].appendChild(menuDivider);
+	// 	}
+	// }
+
+	var populateDD = function(c_ic, string) {
+		console.log(c_ic);
+		whaaa = c_ic;
+		//Button is of form // <a class="dropdown-item" href="#">Action</a>
+		document.getElementById(string + "Span").innerHTML = c_ic.length;
+		for (let i = 0; i < c_ic.length; i++) {
+			var c_icItem = document.createElement('a');
+			var menuDivider = document.createElement('div');
+			c_icItem.className = "dropdown-item";
+			c_icItem.innerHTML = "#" + c_ic[i].qNum + ": " + questions[c_ic[i].qNum - 1].question + "<br>Your Answer: " + c_ic[i].selection;
+			document.getElementById(string).getElementsByTagName('div')[0].appendChild(c_icItem);
+			if (i !== c_ic.length - 1) {
+				menuDivider.className = "dropdown-divider";
+				document.getElementById(string).getElementsByTagName('div')[0].appendChild(menuDivider);
+			}
+		}
 	}
 
-	//Display incorrect results tally
-	for (let i = 0; i < incorrect.length; i++) {
-		var incorrectItem = document.createElement('a');
-		incorrectItem.className = "dropdown-item";
-		incorrectItem.innerHTML = "#" + incorrect[i].qNum + ": " + incorrect[i].selection;
-		document.getElementById('incorrect').getElementsByTagName('div')[0].appendChild(incorrectItem);
-	}
+	populateDD(correct, 'correct');
+	populateDD(incorrect, 'incorrect');
 }
+
+
 
 
 //Create function that updates the information
 var loadQuestions = function() {
+
+	nextButton.disabled = true;
+	nextButton.classList.remove("btn-primary");
+	nextButton.classList.add("btn-info");
 
 	if (q === questions.length) {
 		printResults();
@@ -64,7 +99,7 @@ var loadQuestions = function() {
 	}
 
 	//display the question number
-	questionNumber.innerHTML = q + 1;
+	questionNumber.innerHTML = q + 1 + "  (of " + questions.length + ")";
 
 	//display the question text
 	question.innerHTML = questions[q].question;
@@ -75,7 +110,6 @@ var loadQuestions = function() {
 
 	//load the multiple choices
 	// <button type="button" class="btn btn-outline-primary">Primary</button>
-
 	for (let i = 0; i < questions[q].choices.length; i++) {
 		var choice = document.createElement("button"); // checkbox
 		choice.innerHTML = questions[q].choices[i];
@@ -86,20 +120,20 @@ var loadQuestions = function() {
 		choice.addEventListener("click", verifyAnswer);
 	}
 
-	
-	
-
-
-
-
 	//increment to the next question
 	q++;
+
+	//Check if quiz finished
+	console.log(q);
+	if (q === questions.length) {
+		nextButton.innerHTML = "Finish Quiz";
+	}
 }
 
 var verifyAnswer = function() {
 	//If click is correct answer, turn box green and tally score
 	answerPush = {qNum: q, selection: this.innerHTML, correctSelection: answerText};
-	if ( /*this.innerHTML === answer*/ this.classList.item(2) == answer) {
+	if (this.classList.item(2) == answer) {
 		this.classList.add("btn-success");
 		correct.push(answerPush);
 	} else {
@@ -117,28 +151,16 @@ var disableButtons = function(button) {
 	for ( let i = 0; i < buttonList.length; i++ ) {
 		buttonList[i].disabled = true;
 	}
+	//Enable nextButton
+	nextButton.disabled = false;
+	nextButton.classList.remove("btn-info");
+	nextButton.classList.add("btn-primary");
 }
 
-// var getChildIndex = function() {
-// 	var i = 0;
-// 	while( (child = child.previousSibling) != null ) {
-// 	  i++;
-// 	}
-// }
-
-
-//Create function that updates
-
+//Main Program
 var main = function() {
 	loadQuestions();
 	nextButton.addEventListener("click", loadQuestions);
-
 }
 
 main();
-
-
-
-//Call function on page load
-//Add listener that calls function on next button click
-
